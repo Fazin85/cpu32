@@ -46,13 +46,17 @@ void gi(uint8_t o, uint8_t r1, uint8_t r2, uint16_t i) {
 #define STORE 4
 #define LOADI 5
 #define JNZ 6
+#define ADC 7
+#define SBB 8
+#define LUI 9
+#define ORI 10
 
 int main() {
   gi(LOADI, 0, 0, 6);  // LOADI R0, #6
   gi(LOADI, 1, 0, 67); // LOADI R1, #67
 
   // Add them together (result goes to R0)
-  gi(ADD, 0, 1, 0); // ADD R0, R1    (R0 = R0 + R1 = 6 + 67 = 73)
+  gi(ADD, 0, 1, 6); // ADD R0, R1    (R0 = R0 + R1 = 6 + 67 = 73)
 
   // Load address 2 into a register for storing
   gi(LOADI, 2, 0, 2); // LOADI R2, #2
@@ -64,5 +68,9 @@ int main() {
   gi(SUB, 1, 2, 0);
 
   gi(JNZ, 0, 0, 0);
+
+  gi(LUI, 0, 0, 0x1234); // R0 = 0x12340000
+  gi(ORI, 0, 0, 0x5678); // R0 = 0x12345678
+
   writeLogisimInstructions("program.rom", instructions);
 }
